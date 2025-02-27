@@ -40,6 +40,4 @@ The second dataset `interactions` contains 731927 rows and 5 columns, each row c
 | `rating`    | Rating given        |
 | `review`    | Review text         |
 
-
-
-
+Hello
