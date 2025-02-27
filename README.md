@@ -1,15 +1,17 @@
-# Recipe Rating Predictions Based on Nutrition
+# Recipe Rating Predictions Based on Carbs Inclusion
 Authors: Evelyn Zhang & Haowen Zhang
 
 ## Overview
-In this project, we decided to explore the relationship between different recipe ratings and the relevant nutritional information.
+In this project, we decided to explore the relationship between recipe ratings and the nutrition information.
 
 ## Introduction
+Over the past few years there has been a major change in dietary preferences and more people are paying  attention to how carbohydrates affect the body health. Some of the most popular diets of the moment are  low-carb diets, such as the ketogenic and paleo diets, which are believed to have many benefits, including losing weight, improving metabolic function, and maintaining energy levels. Therefore, we are interested in investigating relationship between the carbohydrate content of recipes and their user ratings. In particular, **we wonder if recipes with low-carb options will get better ratings as people tend to prefer low-carb  foods as healthier choice**. 
 
-The dataset contains recipes and ratings from [food.com](food.com). You could download the two csv files [here](https://drive.google.com/drive/folders/15965zA-g3QbfFqEIzLzk5ICPn4yGzHmr?usp=sharing).
+The dataset we are using contains recipes and ratings from [food.com](food.com). You could download the two csv files [here](https://drive.google.com/drive/folders/15965zA-g3QbfFqEIzLzk5ICPn4yGzHmr?usp=sharing).
 
 1. `RAW_recipes.csv` contains all recipes
 2. `RAW_interactions.csv` contains all reviews and ratings submitted for recipes in `RAW_interactions.csv`
+
 
 For the first `Recipe` Dataset, there are a total of 83782 rows and 13 columns containing all the recipes' information:
 
@@ -37,6 +39,7 @@ The second dataset `interactions` contains 731927 rows and 5 columns, each row c
 | `date`      | Date of interaction |
 | `rating`    | Rating given        |
 | `review`    | Review text         |
+
 
 
 
