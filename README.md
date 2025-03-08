@@ -1,4 +1,4 @@
-# Recipe Rating Predictions Based on Carbs Inclusion
+# Recipe Rating Predictions Based on MEAT Inclusion
 Authors: Evelyn Zhang & Haowen Zhang
 
 ## Overview
