@@ -146,10 +146,10 @@ Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five row
 
 ## Univariate Analysis
 
-
 <iframe
-  src="assets/rating-distribution.html"
-  width="800"
-  height="600"
-  frameborder="0"
+    src="assets/rating-distribution.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
 ></iframe>
