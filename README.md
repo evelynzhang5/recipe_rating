@@ -77,8 +77,8 @@ We used the following steps to clean our data:
      | `review`         | object    |
 
 
-3.  Fill all ratings of **0** in `rating` with **np.nan**.
-    - All the ratings have scale from **1** to **5** with **1** meaning the lowest rating **5** means the highest rating; therefore, a rating of **0** suggests that the rating for that speicifc recipe is missing. Thus, to avoid bias in the `ratings` and false results during our permutation test, we filled the value **0** with **np.nan**.
+3.  Fill all ratings of **0** in `rating` with **np.nan** and convert th rest to integers.
+    - All the ratings have scale from **1** to **5** with **1** meaning the lowest rating **5** means the highest rating; therefore, a rating of **0** suggests that the rating for that speicifc recipe is missing. Thus, to avoid bias in the `ratings` and false results during our permutation test, we filled the value **0** with **np.nan**. Since we plan to build classifier, we changed the type to interger.
 
 4. Check the **null** values across columns. Drop one row with `name` of the recipe being **nan**.
 
@@ -104,7 +104,7 @@ We used the following steps to clean our data:
 
 ### Result
 
-Finally, here is our cleaned dataframe with columns in the appropriate types:
+Finally, here is our cleaned dataframe with columns in the appropriate types and is indexed by the recipe `name`:
 
 | **Column**     | **Dtype**      |
 |----------------|----------------|
@@ -123,6 +123,7 @@ Finally, here is our cleaned dataframe with columns in the appropriate types:
 | recipe_id      | float64        |
 | date           | datetime64[ns] |
 | review         | object         |
+| rating         | int64          |
 | average_rating | float64        |
 | contains_meat  | bool           |
 | calories       | float64        |
@@ -134,29 +135,25 @@ Finally, here is our cleaned dataframe with columns in the appropriate types:
 | carbohydrates  | float64        |
 
 
-Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five rows with relevant columns selected:
-
-| name                                 |     id |   minutes |   protein | contains_meat   |   average_rating |   total_fat |
-|:-------------------------------------|-------:|----------:|----------:|:----------------|-----------------:|------------:|
-| 1 brownies in the world    best ever | 333281 |        40 |         3 | False           |                4 |          10 |
-| 1 in canada chocolate chip cookies   | 453467 |        45 |        13 | False           |                5 |          46 |
-| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
-| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
-| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
-
-
+Our cleaned dataframe has 234429 rows and 24 columns. Notice that some rows have the same `name` meaning they contain the same information for that specific recipe. Here is the first five rows with relevant columns selected:
+| name                                 |   minutes |   protein | contains_meat   |   calories |   n_steps |   n_ingredients |   total_fat |   saturated_fat |   rating |   average_rating |
+|:-------------------------------------|----------:|----------:|:----------------|-----------:|----------:|----------------:|------------:|----------------:|---------:|-----------------:|
+| 1 brownies in the world    best ever |        40 |         3 | False           |      138.4 |        10 |               9 |          10 |              19 |        4 |                4 |
+| 1 in canada chocolate chip cookies   |        45 |        13 | False           |      595.1 |        12 |              11 |          46 |              51 |        5 |                5 |
+| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 |          20 |              36 |        5 |                5 |
+| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 |          20 |              36 |        5 |                5 |
+| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 |          20 |              36 |        5 |                5 |
 ## Univariate Analysis
 Since we would like to classify the ratings in the end, we would like to understand the distribution of our `average_ratings`. As we can observe in the graph, the recipe ratings are more concentrated towards 4 or 5, meaning there is a clear left skew. We suspect that the `average_ratings` might be biased and people tend to give ratings for review especially when they particular like the receipe.
-
 <iframe
     src="assets/rating-distribution.html"
     width = "800"
     height = "600"
     frameborder = "0"
     style="margin: 0; padding: 0; display: block;"
-></iframe>
-
+></iframe
 Another distribution we are interested in visualizing is the distribution of `protein` across all recipes. We can observe a decreasing trend, indicating that the higher the `protein` PDV, there are fewer of those recipes.  
+
 <iframe
     src="assets/protein-distribution.html"
     width = "800"
@@ -176,3 +173,53 @@ both curves, with and without meat tags, have a major peak around a certain rati
     style="margin: 0; padding: 0; display: block;"
 ></iframe>
 
+## Interesting Aggregates
+For our aggregating analysis, we would like to use pivot table to compare and contrast the difference in `rating`, `protein`, `minutes` and `total_fat ` between two distributions in `contains_meat` group (with and without meat tag)
+ Interestingly, we can see that recipes with meat deliver higher protein but also come with higher fat content and longer preparation times.
+| contains_meat   |   minutes |   protein |   rating |   total_fat |
+|:----------------|----------:|----------:|---------:|------------:|
+| False           |   103.197 |   22.8448 |  4.68433 |     28.045  |
+| True            |   118.354 |   66.4226 |  4.66549 |     44.3924 |
+
+
+Another analysis we performed is to observe the trend of distributions of nutrition information based on `rating`. Recipes **with meat** tend to have **higher** calories, protein, total fat, and saturated fat, while non-meat recipes show higher carbohydrate` and sugar values. By observing these trends, we can identify which features may have predictive/determining power for our classifier. 
+
+
+|   rating |   ('calories', False) |   ('calories', True) |   ('carbohydrates', False) |   ('carbohydrates', True) |   ('minutes', False) |   ('minutes', True) |   ('protein', False) |   ('protein', True) |   ('saturated_fat', False) |   ('saturated_fat', True) |   ('sugar', False) |   ('sugar', True) |   ('total_fat', False) |   ('total_fat', True) |
+|---------:|----------------------:|---------------------:|---------------------------:|--------------------------:|---------------------:|--------------------:|---------------------:|--------------------:|---------------------------:|--------------------------:|-------------------:|------------------:|-----------------------:|----------------------:|
+|        1 |               452.611 |              602.204 |                    18.206  |                  10.2393  |              76.8377 |             177.353 |              22.1722 |             74.4954 |                    43.261  |                   58.3067 |           103.058  |           36.816  |                32.1186 |               53.8543 |
+|        2 |               417.497 |              533.707 |                    16.5065 |                  10.6526  |              78.3414 |             156.929 |              22.5854 |             69.3929 |                    39.7893 |                   52.14   |            89.4124 |           32.5245 |                29.2338 |               43.3423 |
+|        3 |               396.173 |              516.864 |                    14.8705 |                  10.0244  |              76.0423 |             122.723 |              24.214  |             67.5892 |                    37.1255 |                   49.1983 |            76.0222 |           33.3563 |                28.1778 |               42.2886 |
+|        4 |               370.899 |              505.299 |                    13.7789 |                  10.0467  |              81.7744 |             120.387 |              23.7568 |             64.2552 |                    32.4152 |                   48.2271 |            65.4865 |           31.2427 |                26.0506 |               41.3598 |
+|        5 |               382.066 |              524.49  |                    14.0343 |                   9.75371 |             105.537  |             111.495 |              22.4546 |             66.2381 |                    35.4745 |                   51.5969 |            72.0983 |           33.3563 |                27.91   |               44.5914 |
+### Assessment of Missingness
+
+### Hypothesis Testing
+From the beginning, we would like to predict the rating of a recipe and we suspect that having `"meat"` in the recipes' `tags` have lower `rating` on average thnn those do not have.
+
+To investigate this question, we designed a **permutaiton test** where we shuffled the boolean column we created `contains_meat`. Our hypothesis, decision rule, statistics, prodcedures are as follows:
+
+**Null Hypothesis:** People rate meat and non-meat tagged dishes the same <br>
+
+**Alternative Hypothesis:** People rate recipes with **meat** tagged  lower than they rate non-meat tagged ones <br>
+
+**Decision Rule:** We will reject the null hypothesis if our p-value is less than **significance level** 0.05
+
+**Test Statistic:** We used **difference in mean** between ratings of non-meat dishes and meat dishes(with meat-without meat) as test stats since it is a directional test
+
+**Prodcedures:**
+We run a 10000-simulation permutaiton test in order to get the empirical distribution of the test statistics under the null hypothesis. Since we lack prior information about the underlying population, so instead of relying on assumptions about the data, the permutation test allows us to directly assess whether the two observed distributions (recipes with meat and without meat) are likely to have come from the same population. We randomly shuffled the bool values given by `contains_meat`column many times and recalculating the rating differences each time, then we build an empirical distribution of the difference under the null hypothesis (that meat inclusion does not affect ratings).
+
+Here is our **result**:
+
+<iframe
+    src="assets/permutation.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
+
+Our **Observed Difference in Rating** (With Meat - Without Meat) is **-0.0188**.
+We then get **p-value** of **0.0**, which is less than **0.05**.
+As a result, we **reject** the null hypothesis and conclude that people rate recipes with meat in their tag lower than recipes without meat in their tag.
