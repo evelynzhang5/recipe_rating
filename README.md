@@ -105,8 +105,8 @@ We used the following steps to clean our data:
 ### Result
 
 Finally, here is our cleaned dataframe with columns in the appropriate types:
-|                | 0              |
-|:---------------|:---------------|
+| **Column**     | **Dtype**      |
+| ---------------| -------------- |
 | id             | int64          |
 | minutes        | int64          |
 | contributor_id | int64          |
