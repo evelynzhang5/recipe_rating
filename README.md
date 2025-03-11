@@ -102,6 +102,7 @@ We used the following steps to clean our data:
 
 - The `contains_meat`is a boolean column checking if the tags of recipes contain `meat`. This step separates the recipes into two groups, with recipes contain `meat` and those without. This provides us a convenient way to compare ratings of recipes of two distributitons: recipes with and without `meat`.
 
+### Result
 
 Finally, here is our cleaned dataframe with columns in the appropriate types:
  **Column**       | **Dtype** |
@@ -132,5 +133,23 @@ Finally, here is our cleaned dataframe with columns in the appropriate types:
 | `saturated_fat`  | float64        |
 | `carbohydrates`  | float64        |
 
-Our cleaned dataframe has 234429 rows and 24 columns. 
+Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five rows with relevant columns selected:
 
+| name                                 |     id |   minutes |   protein | contains_meat   |   average_rating |   total_fat |
+|:-------------------------------------|-------:|----------:|----------:|:----------------|-----------------:|------------:|
+| 1 brownies in the world    best ever | 333281 |        40 |         3 | False           |                4 |          10 |
+| 1 in canada chocolate chip cookies   | 453467 |        45 |        13 | False           |                5 |          46 |
+| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
+| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
+| 412 broccoli casserole               | 306168 |        40 |        22 | False           |                5 |          20 |
+
+
+## Univariate Analysis
+
+
+<iframe
+  src="assets/rating-distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
