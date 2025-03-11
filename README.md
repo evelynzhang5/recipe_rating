@@ -105,7 +105,7 @@ We used the following steps to clean our data:
 ### Result
 
 Finally, here is our cleaned dataframe with columns in the appropriate types:
- **Column**       | **Dtype** |
+| **Column**       | **Dtype** |
 |:---------------|:---------------|
 | `name`           | object         |
 | `id`             | int64          |
@@ -145,6 +145,7 @@ Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five row
 
 
 ## Univariate Analysis
+Since we would like to classify the ratings in the end, we would like to understand the distribution of our `average_ratings`. As we can observe in the graph, the recipe ratings are more concentrated towards 4 or 5, meaning there is a clear left skew. We suspect that the `average_ratings` might be biased and people tend to give ratings for review especially when they particular like the receipe.
 
 <iframe
     src="assets/rating-distribution.html"
@@ -153,3 +154,24 @@ Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five row
     frameborder = "0"
     style="margin: 0; padding: 0; display: block;"
 ></iframe>
+
+Another distribution we are interested in visualizing is the distribution of `protein` across all recipes. We can observe a decreasing trend, indicating that the higher the `protein` PDV, there are fewer of those recipes.  
+<iframe
+    src="assets/protein-distribution.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
+
+## Bivariate Analysis
+To investigate our most interested question,**will the meat inclusion(with meat tag) affect recipes' ratings**, we used a KDE plot to show the distribution of average ratings for recipes with and without the meat tag. We can see that
+both curves, with and without meat tags, have a major peak around a certain rating (around 4-5). However, in general, the close alignment of the two KDE curves implies that the presence or absence of meat **does not** significantly shift the overall rating distribution.
+<iframe
+    src="assets/KDE.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
+
