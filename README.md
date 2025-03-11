@@ -105,8 +105,9 @@ We used the following steps to clean our data:
 ### Result
 
 Finally, here is our cleaned dataframe with columns in the appropriate types:
+
 | **Column**     | **Dtype**      |
-| ---------------| -------------- |
+|----------------|----------------|
 | id             | int64          |
 | minutes        | int64          |
 | contributor_id | int64          |
@@ -131,6 +132,7 @@ Finally, here is our cleaned dataframe with columns in the appropriate types:
 | protein        | float64        |
 | saturated_fat  | float64        |
 | carbohydrates  | float64        |
+
 
 Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five rows with relevant columns selected:
 
