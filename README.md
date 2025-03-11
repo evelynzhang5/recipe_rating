@@ -77,61 +77,60 @@ We used the following steps to clean our data:
      | `review`         | object    |
 
 
-3. Fill all ratings of **0** in `rating` with **np.nan**.
-- All the ratings have scale from **1** to **5** with **1** meaning the lowest rating **5** means the highest rating; therefore, a rating of **0** suggests that the rating for that speicifc recipe is missing. Thus, to avoid bias in the `ratings` and false results during our permutation test, we filled the value **0** with **np.nan**.
+3.  Fill all ratings of **0** in `rating` with **np.nan**.
+    - All the ratings have scale from **1** to **5** with **1** meaning the lowest rating **5** means the highest rating; therefore, a rating of **0** suggests that the rating for that speicifc recipe is missing. Thus, to avoid bias in the `ratings` and false results during our permutation test, we filled the value **0** with **np.nan**.
 
 4. Check the **null** values across columns. Drop one row with `name` of the recipe being **nan**.
 
 5. Add column `average_rating` containing average ratings per recipe.
 
-- Since a recipe can have numerous ratings from different users while we are merging the data, we take the **mean** of all the ratings, which will give us a more comprehensive understanding of all the ratings for the given recipe.
+    - Since a recipe can have numerous ratings from different users while we are merging the data, we take the **mean** of all the ratings, which will give us a more comprehensive understanding of all the ratings for the given recipe.
 
 6. Split and convert the `nutritions`, `ingredients`, `tags` column from `str` to `list`.
 
-- Since we will be doing multiple extractions and look up of items in each column for future analysis, we thought of converting these columns which are **objects** types, acting like strings, to **list** type. Speicifically, we applied a lambda function to perform simple strip() and split() then converted the columns to **list** of strings or floats depending on the content. It will allow us to conduct numerical calculations, item lookup, and so forth on the columns.
+    - Since we will be doing multiple extractions and look up of items in each column for future analysis, we thought of converting these columns which are **objects** types, acting like strings, to **list** type. Speicifically, we applied a lambda function to perform simple strip() and split() then converted the columns to **list** of strings or floats depending on the content. It will allow us to conduct numerical calculations, item lookup, and so forth on the columns.
 
 7. Split values in the `nutrition` column to individual columns of floats
 
-- After converting the column to **list**, we then seperate each into a column with thecorresponding nutrition information as **float**. This could help us look up for speicifc nutrition information more quickly.
+    - After converting the column to **list**, we then seperate each into a column with thecorresponding nutrition information as **float**. This could help us look up for speicifc nutrition information more quickly.
 
 8. Convert `submitted` and `date` to datetime.
 
-- Sinnce these two columns are both stored as **objects**, for our convenience, we decidded to convert them into datetime to allow us conduct analysis on selected period of time.
+    - Sinnce these two columns are both stored as **objects**, for our convenience, we decidded to convert them into datetime to allow us conduct analysis on selected period of time.
 
 9. Add `contains_meat` to the dataframe
 
-- The `contains_meat`is a boolean column checking if the tags of recipes contain `meat`. This step separates the recipes into two groups, with recipes contain `meat` and those without. This provides us a convenient way to compare ratings of recipes of two distributitons: recipes with and without `meat`.
+    - The `contains_meat`is a boolean column checking if the tags of recipes contain `meat`. This step separates the recipes into two groups, with recipes contain `meat` and those without. This provides us a convenient way to compare ratings of recipes of two distributitons: recipes with and without `meat`.
 
 ### Result
 
 Finally, here is our cleaned dataframe with columns in the appropriate types:
-| **Column**       | **Dtype** |
+|                | 0              |
 |:---------------|:---------------|
-| `name`           | object         |
-| `id`             | int64          |
-| `minutes`        | int64          |
-| `contributor_id` | int64          |
-| `submitted`      | datetime64[ns] |
-| `tags`           | object         |
-| `nutrition`      | object         |
-| `n_steps`        | int64          |
-| `steps`          | object         |
-| `description`    | object         |
-| `ingredients`    | object         |
-| `n_ingredients`  | int64          |
-| `user_id`        | float64        |
-| `recipe_id`      | float64        |
-| `date`           | datetime64[ns] |
-| `review`         | object         |
-| `average_rating` | float64        |
-| `contains_meat`  | bool           |
-| `calories`       | float64        |
-| `total_fat`      | float64        |
-| `sugar`          | float64        |
-| `sodium`         | float64        |
-| `protein`        | float64        |
-| `saturated_fat`  | float64        |
-| `carbohydrates`  | float64        |
+| id             | int64          |
+| minutes        | int64          |
+| contributor_id | int64          |
+| submitted      | datetime64[ns] |
+| tags           | object         |
+| nutrition      | object         |
+| n_steps        | int64          |
+| steps          | object         |
+| description    | object         |
+| ingredients    | object         |
+| n_ingredients  | int64          |
+| user_id        | float64        |
+| recipe_id      | float64        |
+| date           | datetime64[ns] |
+| review         | object         |
+| average_rating | float64        |
+| contains_meat  | bool           |
+| calories       | float64        |
+| total_fat      | float64        |
+| sugar          | float64        |
+| sodium         | float64        |
+| protein        | float64        |
+| saturated_fat  | float64        |
+| carbohydrates  | float64        |
 
 Our cleaned dataframe has 234429 rows and 24 columns. Here is the first five rows with relevant columns selected:
 
