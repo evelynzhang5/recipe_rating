@@ -135,7 +135,7 @@ Finally, here is our cleaned dataframe with columns in the appropriate types and
 | carbohydrates  | float64        |
 
 
-Our cleaned dataframe has 234429 rows and 24 columns. Notice that some rows have the same `name` meaning they contain the same information for that specific recipe. Here is the first five rows with relevant columns selected:
+Our cleaned dataframe has 234429 rows and 25 columns. Notice that some rows have the same `name` meaning they contain the same information for that specific recipe. Here is the first five rows with relevant columns selected:
 | name                                 |   minutes |   protein | contains_meat   |   calories |   n_steps |   n_ingredients |   total_fat |   saturated_fat |   rating |   average_rating |
 |:-------------------------------------|----------:|----------:|:----------------|-----------:|----------:|----------------:|------------:|----------------:|---------:|-----------------:|
 | 1 brownies in the world    best ever |        40 |         3 | False           |      138.4 |        10 |               9 |          10 |              19 |        4 |                4 |
@@ -151,7 +151,8 @@ Since we would like to classify the ratings in the end, we would like to underst
     height = "600"
     frameborder = "0"
     style="margin: 0; padding: 0; display: block;"
-></iframe
+></iframe>
+
 Another distribution we are interested in visualizing is the distribution of `protein` across all recipes. We can observe a decreasing trend, indicating that the higher the `protein` PDV, there are fewer of those recipes.  
 
 <iframe
@@ -177,6 +178,7 @@ both curves, with and without meat tags, have a major peak around a certain rati
 ## Interesting Aggregates
 For our aggregating analysis, we would like to use pivot table to compare and contrast the difference in `rating`, `protein`, `minutes` and `total_fat ` between two distributions in `contains_meat` group (with and without meat tag)
  Interestingly, we can see that recipes with meat deliver higher protein but also come with higher fat content and longer preparation times.
+
 | contains_meat   |   minutes |   protein |   rating |   total_fat |
 |:----------------|----------:|----------:|---------:|------------:|
 | False           |   103.197 |   22.8448 |  4.68433 |     28.045  |
@@ -192,7 +194,9 @@ Another analysis we performed is to observe the trend of distributions of nutrit
 |        2 |               417.497 |              533.707 |                    16.5065 |                  10.6526  |              78.3414 |             156.929 |              22.5854 |             69.3929 |                    39.7893 |                   52.14   |            89.4124 |           32.5245 |                29.2338 |               43.3423 |
 |        3 |               396.173 |              516.864 |                    14.8705 |                  10.0244  |              76.0423 |             122.723 |              24.214  |             67.5892 |                    37.1255 |                   49.1983 |            76.0222 |           33.3563 |                28.1778 |               42.2886 |
 |        4 |               370.899 |              505.299 |                    13.7789 |                  10.0467  |              81.7744 |             120.387 |              23.7568 |             64.2552 |                    32.4152 |                   48.2271 |            65.4865 |           31.2427 |                26.0506 |               41.3598 |
-|        5 |               382.066 |              524.49  |                    14.0343 |                   9.75371 |             105.537  |             111.495 |              22.4546 |             66.2381 |                    35.4745 |                   51.5969 |            72.0983 |           33.3563 |                27.91   |               44.5914 |
+|        5 |               382.066 |              524.49  |                    14.0343 |                   9.75371 |             105.537  |             111.495 |              22.4546 |             66.2381 |                    35.4745 |                   51.5969 |            72.0983 |           33.3563 |                27.91   |               44.5914 | 
+
+
 ## Assessment of Missingness
 
 ## Hypothesis Testing
@@ -224,3 +228,20 @@ Here is our **result**:
 Our **Observed Difference in Rating** (With Meat - Without Meat) is **-0.0188**.
 We then get **p-value** of **0.0**, which is less than **0.05**.
 As a result, we **reject** the null hypothesis and conclude that people rate recipes with meat in their tag lower than recipes without meat in their tag.
+
+## Framing a Prediction Problem
+
+In this project, we will be **Predictring the Rating of a Recipe**, which is a **multi-class classification problem**, as `rating` consists only the integer from 1-5 (note we replace the **0** with **np.nan** at the beginning), which would be an catagorical, ordinal variable.
+
+We chose `rating` as our response variable as it is the statistic that best represent user satisfaction and overall quality. Additionally, we conduct several visualizations and analysis with `rating` as one of the variables and observed several trends across the distributions of `rating`. For instance, our hypothesis shows people rate recipes with meat in their tag **lower** than recipes without meat in their tag. So we may be able to predict the rating through features like inclusion of meat.
+
+At the time of prediction, some avaliable features include `contains_meat`, `protein`, and `minutes`, since they were all avalible as soon as the recipes were created before the actual ratings were given, we can safely use them as suitable predictors for our model.
+
+To evaluate our model's effectiveness, we will take a look at both the model's **accuracy** and **F1-score**. 
+
+**Accuracy:** The accuracy will allow us to analyze overall how our model is doing in terms of creating predictions based on **given** parameters, in this case being `minute`,`protein` and `contains_meat`
+
+**F1-Score:**  The f1 socre will calculate harmonic mean of precision and recall for each class, weighted by the class frequency. As shown in the above analysis, we observed the imbalanced distribution for `rating`, which are heavily skewed left with most around 4 to 5. So, using such metric calculation ensures that the performance on less frequent rating categories is properly accounted for.
+
+
+
