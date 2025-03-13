@@ -245,13 +245,17 @@ To evaluate our model's effectiveness, we will take a look at both the model's *
 
 ## Baseline Model
 We used the Random Forest Classifier with two parameters in the baseline model.
+
 1. `contains_meat`: As in the hypothesis section mentioned, people are likely to rate dishes with meat lower than the dishes without meat. This is a nominal variable that affact rating. We transformed the booleans into integers with 1 means True and 0 means False.
+
 2. `minutes`: The minutes column is a continuous, numerical variable in the dataframe. We used StandardScaler() to standardize the data.
 We used k-fold cross validation to seperate the data into training group and testing group. The test group contains 20% of the data while the train group contians 80% of the data.
-The statistics produced by the baseline model is as follows:
-Accuracy: 0.7728642203628608
-F1-Score: 0.6747765701443748
 
-Our baseline has a pretty high accuracy and F1-score. 
-The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. 
+The statistics produced by the baseline model is as follows:
+
+**Accuracy** 0.7728642203628608
+**F1-Score** 0.6747765701443748
+
+
+Our baseline has a pretty high accuracy and F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. 
 
