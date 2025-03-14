@@ -198,6 +198,43 @@ Another analysis we performed is to observe the trend of distributions of nutrit
 
 
 ## Assessment of Missingness
+The three columns in the cleaned dataframe that have non-trivial number missing entries are `rating`(**15036**), `review`(**2777**), and `description`(**136**).
+
+### NMAR Analysis
+In these three columns, we think that **none** is **NMAR**. 
+
+In fact, we believe that all three columns all could be **MAR** due to the fact that they tend to correlate with each other. For instance, people who like the recipe will likely to give `rating` and also leave some positive feedback and `review` or the `description` of the dish itself to express his or her enjoyment. Also, the activeness/number of the `review`, `description`, and the `rating` could be also dependent on the `contributor_id` and the `name` of the recipe. One user could be really proactive in delievering messages or leave comments. One recipe may be really special/seasonal/memroable or for is designed for a specific holiday, leading to more views and attention. 
+
+Specifically, we believe that `rating` is strongly likely to be influneced/correlated with other columns.
+### Missingness Dependency
+First, we would like to investigate whether the number of ingredients has an impact on the missingness of `rating`.  
+
+- *`n_ingredients` and `rating`'s missing dependecy*
+**Null Hypothesis:**The missingness of ratings does not depend on the `n_ingredients` in the recipe.
+
+**Alternative Hypothesis:** The missingness of ratings does depend on `n_ingredients` in the recipe.
+
+**Test Statistic:** the absolute difference in mean `n_ingredients` between missing and non-missing rating groups
+
+**Significance level:**0.01
+
+Here is our **result**:
+<iframe
+    src="assets/n_ingredients_missing.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
+
+Our **Observed Absolute Difference in Rating** is **0.1607**.
+We then get **p-value** of **0.0**, which is less than **0.01**.
+As a result, we **reject** the null hypothesis and conclude that people 
+
+
+
+
+
 
 ## Hypothesis Testing
 From the beginning, we would like to predict the rating of a recipe and we suspect that having `meat` in the recipes' `tags` have lower `rating` on average thnn those do not have.
