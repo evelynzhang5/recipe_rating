@@ -210,15 +210,15 @@ Specifically, we believe that `rating` is strongly likely to be influneced/corre
 ### Missingness Dependency
 First, we would like to investigate whether the number of ingredients has an impact on the missingness of `rating`.  
 
-- *`n_ingredients` and `rating`'s missing dependecy*
+***`n_ingredients` and `rating`'s missing dependecy***
 
-**Null Hypothesis:**The missingness of ratings does not depend on the number of ingredients(`n_ingredients`) in the recipe.
+**Null Hypothesis:** The missingness of ratings does not depend on the number of ingredients(`n_ingredients`) in the recipe.
 
 **Alternative Hypothesis:** The missingness of ratings does depend on the number of ingredients(`n_ingredients`) in the recipe.
 
 **Test Statistic:** the absolute difference in mean `n_ingredients` between missing and non-missing rating groups.
 
-**Significance level:**0.01
+**Significance level:** 0.01
 
 Here is our **result**:
 <iframe
@@ -235,7 +235,7 @@ As a result, we **reject** the null hypothesis and conclude that the missingness
 
 Moving on, we would also like to see whether the duration of cooking has an impact on the missingness of `rating`.  
 
-- *`minutes` and `rating`'s missing dependecy*
+***`minutes` and `rating`'s missing dependecy***
 
 **Null Hypothesis:**The missingness of ratings does not depend on the duration of cooking the recipe.
 
