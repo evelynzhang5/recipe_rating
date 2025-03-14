@@ -319,3 +319,23 @@ The statistics produced by the baseline model is as follows:
 
 Our baseline has a pretty high accuracy and F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. 
 
+
+## Final Model
+In the final model, in added many more parameters. The list of features and how we transformed them is as follow:
+
+1. `minutes`: This is the continuous, numerical variable that we used in the baseline model. In the final model, we did log transformation to the `minutes` column to reduce the skewness, then we used `StandardScalar()` to normalize it. 
+
+2. `protein`: We get the amount of protein from the `nutrition` column. 
+
+3. `contains_meat`: This is the nominal variable that we used in the baseline model. We still use `OneHotEncoder()` to transform the booleans into integers with 1 means True and 0 means False.
+
+4. `calories`
+
+5. `n_ingredients` and  `n_steps`: These columns cotained the number of steps and the number of ingredients in the recipte. We added the two columns together to get the recipte_complexity. Then we take log transformations of the recipte_complexity to reduce skewness. Then we used `StandardScalar()` to normalize it. 
+
+6. `saturated_fat` and `total_fat`： This column is gained from the `nutrition` column. We created the `saturated_fat_ratio` column by dividing the value of `saturated_fat` by `total_fat` because saturated_fat is considered bad in the dishes . It causes obesity and type 2 diabetes. The proportion saturated_fat may affect the rating of the recipes. Finally, we used `StandardScalar()` to normalize the values.
+
+We used the `RandomForestClassifier` in the final model. We also added the argument `class_weight=balanced`. This will allow us to account for the uneven distribution that was seen in the model.
+
+Finally, we run a GridSearch to find optimal hyperparameters, recursivelu searching the number of estimators, the max depth, and the minimum split arguments. 
+
