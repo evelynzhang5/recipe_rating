@@ -210,11 +210,12 @@ Specifically, we believe that `rating` is strongly likely to be influneced/corre
 First, we would like to investigate whether the number of ingredients has an impact on the missingness of `rating`.  
 
 - *`n_ingredients` and `rating`'s missing dependecy*
-**Null Hypothesis:**The missingness of ratings does not depend on the `n_ingredients` in the recipe.
 
-**Alternative Hypothesis:** The missingness of ratings does depend on `n_ingredients` in the recipe.
+**Null Hypothesis:**The missingness of ratings does not depend on the number of ingredients(`n_ingredients`) in the recipe.
 
-**Test Statistic:** the absolute difference in mean `n_ingredients` between missing and non-missing rating groups
+**Alternative Hypothesis:** The missingness of ratings does depend on the number of ingredients(`n_ingredients`) in the recipe.
+
+**Test Statistic:** the absolute difference in mean `n_ingredients` between missing and non-missing rating groups.
 
 **Significance level:**0.01
 
@@ -227,13 +228,34 @@ Here is our **result**:
     style="margin: 0; padding: 0; display: block;"
 ></iframe>
 
-Our **Observed Absolute Difference in Rating** is **0.1607**.
+Our **Observed Absolute Difference in N_ingredients** is **0.1607**.
 We then get **p-value** of **0.0**, which is less than **0.01**.
-As a result, we **reject** the null hypothesis and conclude that people 
+As a result, we **reject** the null hypothesis and conclude that the missingness of `rating` **does** depend on the number of ingredients(`n_ingredients`)
 
+Moving on, we would also like to see whether the duration of cooking has an impact on the missingness of `rating`.  
 
+- *`minutes` and `rating`'s missing dependecy*
 
+**Null Hypothesis:**The missingness of ratings does not depend on the duration of cooking the recipe.
 
+**Alternative Hypothesis:** The missingness of ratings does depend on the duration of cookinghe recipe.
+
+**Test Statistic:** the absolute difference in mean `minutes` between missing and non-missing rating groups.
+
+**Significance level:**0.01
+
+Here is our **result**:
+<iframe
+    src="assets/minutes_missing.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
+
+Our **Observed Absolute Difference in Minutes** is **51.4524**.
+We then get **p-value** of **0.1050**, which is greater than **0.01**.
+As a result, we **reject** the null hypothesis and conclude that the missingness of `rating` **does not** depend on the cooking time of the recipe
 
 
 ## Hypothesis Testing
