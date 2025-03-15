@@ -370,13 +370,13 @@ To address skewness and redundancy as shown in the above analysis, a custom log 
 
 `minutes`,`n_ingredients` and  `n_steps`
 
-Features that are normally distributed like number of steps, and ingredients are scaled using **StandardScaler()**. We also know from previous analysis that higher rated recipes are more time-consuming and require more comlex procedures.
+Features that are normally distributed like number of steps, and ingredients are scaled using **StandardScaler()**. We also know from previous pivot table analysis that higher rated recipes are more time-consuming and require more comlex procedures.
 
 **Categorical Features:**
 
 `contains_meat`
 
-We keep using the **OneHotEncode()** as shown in our baseline model as it helps with achieving decent accuracy
+We keep using the **OneHotEncode()** as shown in our baseline model as it helps with achieving decent accuracy and also, in our hypothesis, we see there is an effect of the presence of `meat` tag on `rating`
 
 **Textual Features:**
 
@@ -389,7 +389,7 @@ Since it contians a list of tags for a given recipe, we preprocessed them by cle
 
 `submitted` and `date`
 
-Since these were columns containing datetime objects, we think that recipes rating might vary in certain holidays, seasons, culture, societal trend, and other timeframe. To account for these, we further extract day, month, year, day of week, and ordinal values from the submitted and recipe dates to capture temporal patterns. We then applied **StandardScaler()** to scale them.
+Since these were columns containing datetime objects, we think that recipes rating might vary in certain holidays, seasons, culture, societal trend, and other timeframe. Also, in our previous analysis, we see that higher rates were given in earlier years like 2008. To account for these, we further extract day, month, year, day of week, and ordinal values from the submitted and recipe dates to capture temporal patterns. We then applied **StandardScaler()** to scale them.
 
 Here is our **result**:
 
