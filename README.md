@@ -421,6 +421,13 @@ We used **precision/recall parity** as our evaluation metric, as seen before. Th
 **Procedure**:
 We performed a permutation test by randomly shuffling the group labels `contains_meat` 10000 times. For each permutation, we recalculated the absolute difference in macro precision. The p-value was then determined as the proportion of permutations in which the permuted absolute difference was greater than or equal to the observed absolute difference.
 
+<iframe
+    src="assets/precision.html"
+    width = "800"
+    height = "600"
+    frameborder = "0"
+    style="margin: 0; padding: 0; display: block;"
+></iframe>
 
 Our **Observed Difference in scores** is **0.13079558064360503**.
 
