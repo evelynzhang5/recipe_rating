@@ -288,7 +288,9 @@ Here is our **result**:
 ></iframe>
 
 Our **Observed Difference in Rating** (With Meat - Without Meat) is **-0.0188**.
+
 We then get **p-value** of **0.0**, which is less than **0.05**.
+
 As a result, we **reject** the null hypothesis and conclude that people rate recipes with meat in their tag lower than recipes without meat in their tag.
 
 ## Framing a Prediction Problem
@@ -326,20 +328,24 @@ Our baseline has a pretty high accuracy but low F1-score. The f1-score shows tha
 To improve our model, we decided to take a look into the feature importance:
 
 For two of our **raw features: protein, contains_meat_True**, we have correponding transformed feature importance:
-**standardscaler__protein** 0.9789
-**onehotencoder__contains_meat_True** 0.0211
+
+**standardscaler__protein** 0.9789 <br>
+
+**onehotencoder__contains_meat_True** 0.0211 <br>
+
 This shows that the model relies heavily on the protein feature to make predictions, while the indicator for whether a recipe contains meat plays a much smaller role.
 
 ## Final Model
+
 Based on previous experiement, given the high accuracy but low f1 score, we decided to add more parameters and features to train our model. Also, we utilized **GridSearchCV** to find optimal hyperparameters `max_depth`,`n_estimators`,`min_samples_split`,`min_samples_leaf`, and `max_features`. We set the **class_weight** to **balanced** to account for our imbalanced data. We also introduced **K-fold cross-validation** as it provides a more reliable estimate of your model's performance.
 
 In order to build a final model, we decided to do another round of exploratory analysis of all the **numerical** columns. Speicifcally, we would like to examine and take a look at the **distribution** and **correlation** with target column `rating` of each.
 
 We made some key observations after the visualizations:
 
-1. Some distributions like `n_steps` and `n_ingredients` look fairly symmetric, indicating that the mean and median are likely similar. For these we can just apply some simple **StandardScaler*()**.
+1. Some distributions like `n_steps` and `n_ingredients` look fairly symmetric, indicating that the mean and median are likely similar. For these we can just apply some simple **StandardScaler()**.
 
-2. Other distributions especially for those relevant to **nutrition**, such as `protein` and `saturated_fat`, and `minutes` show clear skewness (either right‐skewed or left‐skewed), which implies that a few extreme values are pulling the mean away from the median. For these columns, we might need to apply potential transoformers and scalers like **log or exponential transformation** or **RobustScaler()**.
+2. Other distributions especially for those relevant to **nutrition**, such as `protein` and `saturated_fat`, show clear skewness (either right‐skewed or left‐skewed), which implies that a few extreme values are pulling the mean away from the median. For these columns, we might need to apply potential transoformers and scalers like **log or exponential transformation** or **RobustScaler()**.
 
 3. Most of the **datetime** type columns like `day` and `month` appeared to be relatively even, uniform, and symmetric.
 
@@ -414,5 +420,7 @@ We used **precision/recall parity** as our evaluation metric, as seen before. Th
 We performed a permutation test by randomly shuffling the group labels `contains_meat` 10000 times. For each permutation, we recalculated the absolute difference in macro precision. The p-value was then determined as the proportion of permutations in which the permuted absolute difference was greater than or equal to the observed absolute difference.
 
 Our **Observed Difference in scores** is **0.13079558064360503**.
+
 We then get **p-value** of **0.391**, which is less than **0.01**.
+
 As a result, we **fail to reject** the null hypothesis. This suggests that the observed difference in precision could reasonably be due to random chance, and we conclude that there is no statistically significant evidence proving that our model is unfair.
