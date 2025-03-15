@@ -351,33 +351,33 @@ This further proves that in order to increase predictive power, we have to creat
 
 Here is our procedures:
 
-1. Numerical Features:
+**Numerical Features:**
 
 `calories`, `protein`, `total fat`, `sugar`, `sodium`, `saturated fat`, and `carbohydrates`
 
 According to the pivot table, we know that nutritional information generally are good indicator for `rating`.(As `rating` increases, in general, all nutritional features decrease)
 To address skewness and redundancy as shown in the above analysis, a custom log transformation (np.log1p) is applied to nutrition features, and then we utilized **RobustScaler()** to scale them considering the high potential of outliers.
 
-2. Preparation Details:
+**Preparation Details:**
 
 `minutes`,`n_ingredients` and  `n_steps`
 
 Features that are normally distributed like number of steps, and ingredients are scaled using **StandardScaler()**. We also know from previous analysis that higher rated recipes are more time-consuming and require more comlex procedures.
 
-3. Categorical Features:
+**Categorical Features:**
 
 `contains_meat`
 
 We keep using the **OneHotEncode()** as shown in our baseline model as it helps with achieving decent accuracy
 
-4. Textual Features:
+**Textual Features:**
 
 `tags`
 
 Since it contians a list of tags for a given recipe, we preprocessed them by cleaning, lowercasing, and concatenating individual tags. They are then transformed into numerical features using TF-IDF. We think that there might be certain tags that are associated with higher views, search, and attentions, such as those related to holidays or special diet plan.
 
 
-5. Date Features:
+**Date Features:**
 
 `submitted` and `date`
 
@@ -411,6 +411,6 @@ We used **precision/recall parity** as our evaluation metric, as seen before. Th
 **Procedure**:
 We performed a permutation test by randomly shuffling the group labels `contains_meat` 10000 times. For each permutation, we recalculated the absolute difference in macro precision. The p-value was then determined as the proportion of permutations in which the permuted absolute difference was greater than or equal to the observed absolute difference.
 
-Our **Observed Difference in scores** is **0.391**.
-We then get **p-value** of **0.0**, which is less than **0.01**.
+Our **Observed Difference in scores** is **0.13079558064360503**.
+We then get **p-value** of **0.391**, which is less than **0.01**.
 As a result, we **fail to reject** the null hypothesis. This suggests that the observed difference in precision could reasonably be due to random chance, and we conclude that there is no statistically significant evidence proving that our model is unfair.
