@@ -323,7 +323,7 @@ The statistics produced by the baseline model is as follows:
 **F1-Score** 0.17489827929656016 <br>
 
 
-Our baseline has a pretty high accuracy but low F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. In other words while the model is often correct, it likely performs very poorly on one or more classes—usually the minority class—resulting in low precision, recall, or both when these are combined as the F1 score. This is most likely due to the **imbalanced** distribution, as mentioned above during our analysis in EDA.
+Our baseline has a pretty high accuracy but low F1-score. The f1-score shows that our baseline model is not overconfident and does not miss too many actual positives. In other words while the model is often correct, it likely performs very poorly on one or more classes—usually the minority class—resulting in low precision, recall, or both when these are combined as the F1 score. This is most likely due to the **imbalanced** distribution, as mentioned above during our analysis in EDA.
 
 To improve our model, we decided to take a look into the feature importance:
 
