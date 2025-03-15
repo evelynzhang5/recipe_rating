@@ -136,6 +136,7 @@ Finally, here is our cleaned dataframe with columns in the appropriate types and
 
 
 Our cleaned dataframe has 234429 rows and 25 columns. Notice that some rows have the same `name` meaning they contain the same information for that specific recipe. Here is the first five rows with relevant columns selected:
+
 | name                                 |   minutes |   protein | contains_meat   |   calories |   n_steps |   n_ingredients | submitted           | date                |   rating |   average_rating |
 |:-------------------------------------|----------:|----------:|:----------------|-----------:|----------:|----------------:|:--------------------|:--------------------|---------:|-----------------:|
 | 1 brownies in the world    best ever |        40 |         3 | False           |      138.4 |        10 |               9 | 2008-10-27 00:00:00 | 2008-11-19 00:00:00 |        4 |                4 |
