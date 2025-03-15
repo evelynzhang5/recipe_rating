@@ -258,7 +258,7 @@ Here is our **result**:
 
 Our **Observed Absolute Difference in Minutes** is **51.4524**.
 We then get **p-value** of **0.1050**, which is greater than **0.01**.
-As a result, we **reject** the null hypothesis and conclude that the missingness of `rating` **does not** depend on the cooking time of the recipe
+As a result, we **failed to reject** the null hypothesis and conclude that the missingness of `rating` **there is lack of evidence proving** that the missingness depends on the cooking time of the recipe
 
 
 ## Hypothesis Testing
