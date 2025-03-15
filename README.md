@@ -186,17 +186,17 @@ For our aggregating analysis, we would like to use pivot table to compare and co
 | True            |   118.354 |   66.4226 |  4.66549 |     44.3924 |
 
 
-Another analysis we performed is to observe the trend of distributions of nutrition information based on `rating`. Recipes **with meat** tend to have **higher** calories, protein, total fat, and saturated fat, while non-meat recipes show higher carbohydrate` and sugar values. By observing these trends, we can identify which features may have predictive/determining power for our classifier. 
+Another analysis we performed is to observe the trend of distributions of nutrition information based on `rating`. Overall, the **nutritional** metrics (calories, carbohydrates, protein, saturated fat, sugar, and total fat) show a fairly clear negative trend with increasing rating—lower values tend to correspond to higher ratings (at least from ratings 1 to 4). The decrease in calories, carbs, and fats from ratings 1 to 4 might reflect a preference for recipes that are perceived as healthier or less indulgent. However, the slight reversal in rating 5 (longer minutes, higher `fat`/`sugar`) could suggest that the most highly rated recipes balance healthiness with complexity or flavor richness that requires more preparation time and slightly richer ingredients.
 
+Most metrics **decrease** as the rating increases, suggesting that higher ratings (in this range) might be associated with healthier or less energy-dense options. There are some small increase sin several values at rating 5 indicates that while there’s an overall downward trend, the highest rating category might not follow the pattern as closely as ratings 1 to 4, so there might be some outliers existing.
 
-|   rating |   ('calories', False) |   ('calories', True) |   ('carbohydrates', False) |   ('carbohydrates', True) |   ('minutes', False) |   ('minutes', True) |   ('protein', False) |   ('protein', True) |   ('saturated_fat', False) |   ('saturated_fat', True) |   ('sugar', False) |   ('sugar', True) |   ('total_fat', False) |   ('total_fat', True) |
-|---------:|----------------------:|---------------------:|---------------------------:|--------------------------:|---------------------:|--------------------:|---------------------:|--------------------:|---------------------------:|--------------------------:|-------------------:|------------------:|-----------------------:|----------------------:|
-|        1 |               452.611 |              602.204 |                    18.206  |                  10.2393  |              76.8377 |             177.353 |              22.1722 |             74.4954 |                    43.261  |                   58.3067 |           103.058  |           36.816  |                32.1186 |               53.8543 |
-|        2 |               417.497 |              533.707 |                    16.5065 |                  10.6526  |              78.3414 |             156.929 |              22.5854 |             69.3929 |                    39.7893 |                   52.14   |            89.4124 |           32.5245 |                29.2338 |               43.3423 |
-|        3 |               396.173 |              516.864 |                    14.8705 |                  10.0244  |              76.0423 |             122.723 |              24.214  |             67.5892 |                    37.1255 |                   49.1983 |            76.0222 |           33.3563 |                28.1778 |               42.2886 |
-|        4 |               370.899 |              505.299 |                    13.7789 |                  10.0467  |              81.7744 |             120.387 |              23.7568 |             64.2552 |                    32.4152 |                   48.2271 |            65.4865 |           31.2427 |                26.0506 |               41.3598 |
-|        5 |               382.066 |              524.49  |                    14.0343 |                   9.75371 |             105.537  |             111.495 |              22.4546 |             66.2381 |                    35.4745 |                   51.5969 |            72.0983 |           33.3563 |                27.91   |               44.5914 | 
-
+|   rating |   calories |   carbohydrates |   minutes |   n_ingredients |   protein |   saturated_fat |   sugar |   total_fat |
+|---------:|-----------:|----------------:|----------:|----------------:|----------:|----------------:|--------:|------------:|
+|        1 |    486.595 |         16.3962 |   99.6725 |         8.91289 |   34.0589 |         46.6791 | 88.0094 |     37.0564 |
+|        2 |    446.598 |         15.0405 |   98.0215 |         9.22973 |   34.307  |         42.8822 | 75.1664 |     32.7669 |
+|        3 |    425.791 |         13.6813 |   87.4976 |         9.20092 |   34.8582 |         40.0881 | 65.552  |     31.6405 |
+|        4 |    405.047 |         12.8306 |   91.585  |         9.10076 |   34.0466 |         36.4327 | 56.7858 |     29.9404 |
+|        5 |    415.213 |         13.038  |  106.924  |         9.04675 |   32.6446 |         39.2268 | 63.0816 |     31.7924 |
 
 ## Assessment of Missingness
 The three columns in the cleaned dataframe that have non-trivial number missing entries are `rating`(**15036**), `review`(**2777**), and `description`(**136**).
@@ -295,47 +295,108 @@ In this project, we will be **Predicting the Rating of a Recipe**, which is a **
 
 We chose `rating` as our response variable as it is the statistic that best represent user satisfaction and overall quality. Additionally, we conduct several visualizations and analysis with `rating` as one of the variables and observed several trends across the distributions of `rating`. For instance, our hypothesis shows people rate recipes with meat in their tag **lower** than recipes without meat in their tag. So we may be able to predict the rating through features like inclusion of meat.
 
-At the time of prediction, some avaliable features include `contains_meat`, `protein`, and `minutes`, since they were all avalible as soon as the recipes were created before the actual ratings were given, we can safely use them as suitable predictors for our model.
+At the time of prediction, some avaliable features include `contains_meat` and `protein`, since they were all avalible as soon as the recipes were created before the actual ratings were given, we can safely use them as suitable predictors for our model.
 
 To evaluate our model's effectiveness, we will take a look at both the model's **accuracy** and **F1-score**. 
 
-**Accuracy:** The accuracy will allow us to analyze overall how our model is doing in terms of creating predictions based on **given** parameters, in this case being `minute`,`protein` and `contains_meat`
+**Accuracy:** The accuracy will allow us to analyze overall how our model is doing in terms of creating predictions based on **given** parameters.
 
 **F1-Score:**  The f1 socre will calculate harmonic mean of precision and recall for each class, weighted by the class frequency. As shown in the above analysis, we observed the imbalanced distribution for `rating`, which are heavily skewed left with most around 4 to 5. So, using such metric calculation ensures that the performance on less frequent rating categories is properly accounted for.
 
 ## Baseline Model
-We used the Random Forest Classifier with two parameters in the baseline model.
+We used the **Random Forest Classifier** with two parameters(one **quantitative** one **nominal**) for the baseline model.
 
-1. `contains_meat`: As in the hypothesis section mentioned, people are likely to rate dishes with meat lower than the dishes without meat. This is a nominal variable that affact rating. We transformed the booleans into integers with 1 means True and 0 means False.
+1. `contains_meat`: As in the hypothesis section mentioned, people are likely to rate dishes with meat lower than the dishes without meat. This is a **nominal** variable contains **bool** value. We transformed the booleans into integers using **OneHotEncoder()** with 1 means True and 0 means False.
 
-2. `minutes`: The minutes column is a continuous, numerical variable in the dataframe. We used StandardScaler() to standardize the data.
-We used k-fold cross validation to seperate the data into training group and testing group. The test group contains 20% of the data while the train group contians 80% of the data.
+2. `protein `: The `protein` column contains continuous, numerical values with **float** type, making it **quantitative**. Speicifcally, it represents the **percentage of daily value** of **protein** for the speicifc recipe. We used **StandardScaler()** to standardize the data.
+
+Additionally, we seperate the data into training group and testing group. The test group contains 20% of the data while the train group contians 80% of the data.
 
 The statistics produced by the baseline model is as follows:
 
-**Accuracy** 0.7728642203628608
-**F1-Score** 0.6747765701443748
+**Accuracy** 0.7736046856127077
+**F1-Score** 0.17489827929656016
 
 
-Our baseline has a pretty high accuracy and F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. 
+Our baseline has a pretty high accuracy but low F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. In other words while the model is often correct, it likely performs very poorly on one or more classes—usually the minority class—resulting in low precision, recall, or both when these are combined as the F1 score. This is most likely due to the **imbalanced** distribution, as mentioned above during our analysis in EDA.
 
+To improve our model, we decided to take a look into the feature importance:
+
+For two of our **raw features: protein, contains_meat_True**, we have correponding transformed feature importance:
+**standardscaler__protein** 0.9789
+**onehotencoder__contains_meat_True** 0.0211
+This shows that the model relies heavily on the protein feature to make predictions, while the indicator for whether a recipe contains meat plays a much smaller role.
 
 ## Final Model
-In the final model, in added many more parameters. The list of features and how we transformed them is as follow:
+Based on previous experiement, given the high accuracy but low f1 score, we decided to add more parameters and features to train our model. Also, we utilized **GridSearchCV** to find optimal hyperparameters `max_depth`,`n_estimators`,`min_samples_split`,`min_samples_leaf`, and `max_features`. We set the **class_weight** to **balanced** to account for our imbalanced data. We also introduced **K-fold cross-validation** as it provides a more reliable estimate of your model's performance.
 
-1. `minutes`: This is the continuous, numerical variable that we used in the baseline model. In the final model, we did log transformation to the `minutes` column to reduce the skewness, then we used `StandardScalar()` to normalize it. 
+In order to build a final model, we decided to do another round of exploratory analysis of all the **numerical** columns. Speicifcally, we would like to examine and take a look at the **distribution** and **correlation** with target column `rating` of each.
 
-2. `protein`: We get the amount of protein from the `nutrition` column. 
+We made some key observations after the visualizations:
 
-3. `contains_meat`: This is the nominal variable that we used in the baseline model. We still use `OneHotEncoder()` to transform the booleans into integers with 1 means True and 0 means False.
+1. Some distributions like `n_steps` and `n_ingredients` look fairly symmetric, indicating that the mean and median are likely similar. For these we can just apply some simple **StandardScaler*()**.
 
-4. `calories`
+2. Other distributions especially for those relevant to **nutrition**, such as `protein` and `saturated_fat`, and `minutes` show clear skewness (either right‐skewed or left‐skewed), which implies that a few extreme values are pulling the mean away from the median. For these columns, we might need to apply potential transoformers and scalers like **log or exponential transformation** or **RobustScaler()**.
 
-5. `n_ingredients` and  `n_steps`: These columns cotained the number of steps and the number of ingredients in the recipte. We added the two columns together to get the recipte_complexity. Then we take log transformations of the recipte_complexity to reduce skewness. Then we used `StandardScalar()` to normalize it. 
+3. Most of the **datetime** type columns like `day` and `month` appeared to be relatively even, uniform, and symmetric.
 
-6. `saturated_fat` and `total_fat`： This column is gained from the `nutrition` column. We created the `saturated_fat_ratio` column by dividing the value of `saturated_fat` by `total_fat` because saturated_fat is considered bad in the dishes . It causes obesity and type 2 diabetes. The proportion saturated_fat may affect the rating of the recipes. Finally, we used `StandardScalar()` to normalize the values.
+In general, our data seems to be quite **imbalanced**. Due to this consideration, for **model selection**, we decided to keep using **Random Forest Classifiers**, which is tend to be robust to outliers and skewed distributions because they split data based on thresholds and are less affected by extreme values.
 
-We used the `RandomForestClassifier` in the final model. We also added the argument `class_weight=balanced`. This will allow us to account for the uneven distribution that was seen in the model.
+To make full use of our **datetime** columns, we split the **submitted** columns based on `day`, `month`, and `year`, and created a column for each, and we convert `date` columns to **ordinal** numbers as well.
 
-Finally, we run a GridSearch to find optimal hyperparameters, recursivelu searching the number of estimators, the max depth, and the minimum split arguments. 
+After generating correlation score, we observed that many variables and **nutritional metrics** (total_fat, saturated_fat, sodium, sugar, calories, protein, carbohydrates) have correlations near zero (ranging from about **0.02463** to **-0.012863**), indicates that these factors have **little** direct linear association with the rating in this dataset.
 
+This further proves that in order to increase predictive power, we have to create more informative features by using techniques such as **creating interaction terms** and **apply transformations** that better capture the underlying relationships.
+
+Here is our procedures:
+
+- Numerical Features:
+`calories`, `protein`, `total fat`, `sugar`, `sodium`, `saturated fat`, and `carbohydrates`
+According to the pivot table, we know that nutritional information generally are good indicator for `rating`.(As `rating` increases, in general, all nutritional features decrease)
+To address skewness and redundancy as shown in the above analysis, a custom log transformation (np.log1p) is applied to nutrition features, and then we utilized **RobustScaler()** to scale them considering the high potential of outliers.
+
+- Preparation Details:
+`minutes`,`n_ingredients` and  `n_steps`
+Features that are normally distributed like number of steps, and ingredients are scaled using **StandardScaler()**. We also know from previous analysis that higher rated recipes are more time-consuming and require more comlex procedures.
+
+- Categorical Features:
+`contains meat`
+We keep using the **OneHotEncode()** as shown in our baseline model as it helps with achieving decent accuracy
+
+- Textual Features:
+`tags`
+Since it contians a list of tags for a given recipe, we preprocessed them by cleaning, lowercasing, and concatenating individual tags. They are then transformed into numerical features using TF-IDF. We think that there might be certain tags that are associated with higher views, search, and attentions, such as those related to holidays or special diet plan.
+
+
+- Date Features:
+`submitted` and `date`
+Since these were columns containing datetime objects, we think that recipes rating might vary in certain holidays, seasons, culture, societal trend, and other timeframe. To account for these, we further extract day, month, year, day of week, and ordinal values from the submitted and recipe dates to capture temporal patterns. We then applied **StandardScaler()** to scale them.
+
+Here is our **result**:
+**Best Hyperparameters:** {'clf__max_depth': None, 'clf__max_features': None, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10, 'clf__n_estimators': 200}
+**Best Cross-Validated f1_macro:** 0.31980640001565172
+**Test Set Accuracy:** 0.7764122973065432
+
+While maintain the similar **accuracy** score, we see a great improvement in our **f1_score**. This means that our model was able to predict reviews for minority groups, which are those recipes with lower rating more accuratly than before!
+
+## Fairness Analysis
+
+For our fairness analysis, we decided to use the column `contains_meat` to create the group.
+**Group X :** Defined as all recipes where the boolean column `contains_meat` is True.
+**Group Y :** Defined as all recipes where the boolean column `contains_meat` is False.
+We used **precision/recall parity** as our evaluation metric, as seen before. The metric calculates the precision for each class and then takes the average, ensuring that performance across all classes is considered equally. In imbalanced datasets or multi-class settings, overall accuracy can be misleading. It’s more important to focus on **False Positives**, that is, for the model to correctly identify the rating of a recipe among all instances of that rating. False positives would not be good since it would mislead users with the incorrectly labeled ratings.
+
+**Null Hypothesis:** The model is fair. That is, the difference in macro precision between recipes with meat (Group X) and recipes without meat (Group Y) is zero, and any observed difference is due to random chance. <br>
+
+**Alternative Hypothesis:** The model is unfair. In other words, there is a systematic difference in macro precision between the two groups (specifically, that recipes without meat have a higher precision than those with meat). <br>
+
+**Decision Rule:** We will reject the null hypothesis if our p-value is less than **significance level** 0.05
+
+**Test Statistic:** We used **absolute difference in macro precision** between between the two groups as our test statistic.
+
+**Procedure**:
+We performed a permutation test by randomly shuffling the group labels `contains_meat` 10000 times. For each permutation, we recalculated the absolute difference in macro precision. The p-value was then determined as the proportion of permutations in which the permuted absolute difference was greater than or equal to the observed absolute difference.
+
+Our **Observed Difference in scores** is **0.391**.
+We then get **p-value** of **0.0**, which is less than **0.01**.
+As a result, we **fail to reject** the null hypothesis. This suggests that the observed difference in precision could reasonably be due to random chance, and we conclude that there is no statistically significant evidence proving that our model is unfair.
