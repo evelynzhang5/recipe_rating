@@ -137,13 +137,14 @@ Finally, here is our cleaned dataframe with columns in the appropriate types and
 
 Our cleaned dataframe has 234429 rows and 25 columns. Notice that some rows have the same `name` meaning they contain the same information for that specific recipe. Here is the first five rows with relevant columns selected:
 
-| name                                 |   minutes |   protein | contains_meat   |   calories |   n_steps |   n_ingredients | submitted           | date                |   rating |   average_rating |
-|:-------------------------------------|----------:|----------:|:----------------|-----------:|----------:|----------------:|:--------------------|:--------------------|---------:|-----------------:|
-| 1 brownies in the world    best ever |        40 |         3 | False           |      138.4 |        10 |               9 | 2008-10-27 00:00:00 | 2008-11-19 00:00:00 |        4 |                4 |
-| 1 in canada chocolate chip cookies   |        45 |        13 | False           |      595.1 |        12 |              11 | 2011-04-11 00:00:00 | 2012-01-26 00:00:00 |        5 |                5 |
-| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 | 2008-05-30 00:00:00 | 2008-12-31 00:00:00 |        5 |                5 |
-| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 | 2008-05-30 00:00:00 | 2009-04-13 00:00:00 |        5 |                5 |
-| 412 broccoli casserole               |        40 |        22 | False           |      194.8 |         6 |               9 | 2008-05-30 00:00:00 | 2013-08-02 00:00:00 |        5 |                5 |
+| name                                 |     id |   minutes |   n_steps |   n_ingredients |   calories |   rating |   protein |   total_fat | contains_meat   |
+|:-------------------------------------|-------:|----------:|----------:|----------------:|-----------:|---------:|----------:|------------:|:----------------|
+| 1 brownies in the world    best ever | 333281 |        40 |        10 |               9 |      138.4 |        4 |         3 |          10 | False           |
+| 1 in canada chocolate chip cookies   | 453467 |        45 |        12 |              11 |      595.1 |        5 |        13 |          46 | False           |
+| 412 broccoli casserole               | 306168 |        40 |         6 |               9 |      194.8 |        5 |        22 |          20 | False           |
+| 412 broccoli casserole               | 306168 |        40 |         6 |               9 |      194.8 |        5 |        22 |          20 | False           |
+| 412 broccoli casserole               | 306168 |        40 |         6 |               9 |      194.8 |        5 |        22 |          20 | False           | 
+
 
 ## Univariate Analysis
 Since we would like to classify the ratings in the end, we would like to understand the distribution of our `average_ratings`. As we can observe in the graph, the recipe ratings are more concentrated towards 4 or 5, meaning there is a clear left skew. We suspect that the `average_ratings` might be biased and people tend to give ratings for review especially when they particular like the receipe.
