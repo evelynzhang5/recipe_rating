@@ -404,8 +404,10 @@ While maintain the similar **accuracy** score, we see a great improvement in our
 ## Fairness Analysis
 
 For our fairness analysis, we decided to use the column `contains_meat` to create the group.
+
 **Group X :** Defined as all recipes where the boolean column `contains_meat` is True.
 **Group Y :** Defined as all recipes where the boolean column `contains_meat` is False.
+
 We used **precision/recall parity** as our evaluation metric, as seen before. The metric calculates the precision for each class and then takes the average, ensuring that performance across all classes is considered equally. In imbalanced datasets or multi-class settings, overall accuracy can be misleading. It’s more important to focus on **False Positives**, that is, for the model to correctly identify the rating of a recipe among all instances of that rating. False positives would not be good since it would mislead users with the incorrectly labeled ratings.
 
 **Null Hypothesis:** The model is fair. That is, the difference in macro precision between recipes with meat (Group X) and recipes without meat (Group Y) is zero, and any observed difference is due to random chance. <br>
@@ -414,13 +416,15 @@ We used **precision/recall parity** as our evaluation metric, as seen before. Th
 
 **Decision Rule:** We will reject the null hypothesis if our p-value is less than **significance level** 0.01 <br>
 
-**Test Statistic:** We used **absolute difference in macro precision** between between the two groups as our test statistic.
+**Test Statistic:** We used **difference in macro precision** between between the two groups(without meat-with meat) as our test statistic.
 
 **Procedure**:
 We performed a permutation test by randomly shuffling the group labels `contains_meat` 10000 times. For each permutation, we recalculated the absolute difference in macro precision. The p-value was then determined as the proportion of permutations in which the permuted absolute difference was greater than or equal to the observed absolute difference.
 
+
 Our **Observed Difference in scores** is **0.13079558064360503**.
 
-We then get **p-value** of **0.391**, which is less than **0.01**.
+We then get **p-value** of **0.071**, which is less than **0.01**.
 
 As a result, we **fail to reject** the null hypothesis. This suggests that the observed difference in precision could reasonably be due to random chance, and we conclude that there is no statistically significant evidence proving that our model is unfair.
+
