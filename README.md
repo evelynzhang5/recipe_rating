@@ -237,13 +237,13 @@ Moving on, we would also like to see whether the duration of cooking has an impa
 
 ***`minutes` and `rating`'s missing dependecy***
 
-**Null Hypothesis:**The missingness of ratings does not depend on the duration of cooking the recipe.
+**Null Hypothesis:** The missingness of ratings does not depend on the duration of cooking the recipe. <br>
 
-**Alternative Hypothesis:** The missingness of ratings does depend on the duration of cookinghe recipe.
+**Alternative Hypothesis:** The missingness of ratings does depend on the duration of cookinghe recipe. <br>
 
-**Test Statistic:** the absolute difference in mean `minutes` between missing and non-missing rating groups.
+**Test Statistic:** The absolute difference in mean `minutes` between missing and non-missing rating groups. <br>
 
-**Significance level:**0.01
+**Significance level:** 0.01
 
 Here is our **result**:
 <iframe
@@ -314,8 +314,9 @@ Additionally, we seperate the data into training group and testing group. The te
 
 The statistics produced by the baseline model is as follows:
 
-**Accuracy** 0.7736046856127077
-**F1-Score** 0.17489827929656016
+**Accuracy** 0.7736046856127077 <br>
+
+**F1-Score** 0.17489827929656016 <br>
 
 
 Our baseline has a pretty high accuracy but low F1-score. The f1-score shows that our baseline model is not overconfident and does not miss to many actual positives. In other words while the model is often correct, it likely performs very poorly on one or more classes—usually the minority class—resulting in low precision, recall, or both when these are combined as the F1 score. This is most likely due to the **imbalanced** distribution, as mentioned above during our analysis in EDA.
@@ -350,32 +351,45 @@ This further proves that in order to increase predictive power, we have to creat
 
 Here is our procedures:
 
-- Numerical Features:
+1. Numerical Features:
+
 `calories`, `protein`, `total fat`, `sugar`, `sodium`, `saturated fat`, and `carbohydrates`
+
 According to the pivot table, we know that nutritional information generally are good indicator for `rating`.(As `rating` increases, in general, all nutritional features decrease)
 To address skewness and redundancy as shown in the above analysis, a custom log transformation (np.log1p) is applied to nutrition features, and then we utilized **RobustScaler()** to scale them considering the high potential of outliers.
 
-- Preparation Details:
+2. Preparation Details:
+
 `minutes`,`n_ingredients` and  `n_steps`
+
 Features that are normally distributed like number of steps, and ingredients are scaled using **StandardScaler()**. We also know from previous analysis that higher rated recipes are more time-consuming and require more comlex procedures.
 
-- Categorical Features:
-`contains meat`
+3. Categorical Features:
+
+`contains_meat`
+
 We keep using the **OneHotEncode()** as shown in our baseline model as it helps with achieving decent accuracy
 
-- Textual Features:
+4. Textual Features:
+
 `tags`
+
 Since it contians a list of tags for a given recipe, we preprocessed them by cleaning, lowercasing, and concatenating individual tags. They are then transformed into numerical features using TF-IDF. We think that there might be certain tags that are associated with higher views, search, and attentions, such as those related to holidays or special diet plan.
 
 
-- Date Features:
+5. Date Features:
+
 `submitted` and `date`
+
 Since these were columns containing datetime objects, we think that recipes rating might vary in certain holidays, seasons, culture, societal trend, and other timeframe. To account for these, we further extract day, month, year, day of week, and ordinal values from the submitted and recipe dates to capture temporal patterns. We then applied **StandardScaler()** to scale them.
 
 Here is our **result**:
-**Best Hyperparameters:** {'clf__max_depth': None, 'clf__max_features': None, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10, 'clf__n_estimators': 200}
-**Best Cross-Validated f1_macro:** 0.31980640001565172
-**Test Set Accuracy:** 0.7764122973065432
+
+**Best Hyperparameters:** {'clf__max_depth': None, 'clf__max_features': None, 'clf__min_samples_leaf': 1, 'clf__min_samples_split': 10, 'clf__n_estimators': 200} <br>
+
+**Best Cross-Validated f1_macro:** 0.31980640001565172 <br>
+
+**Test Set Accuracy:** 0.7764122973065432 <br>
 
 While maintain the similar **accuracy** score, we see a great improvement in our **f1_score**. This means that our model was able to predict reviews for minority groups, which are those recipes with lower rating more accuratly than before!
 
@@ -390,7 +404,7 @@ We used **precision/recall parity** as our evaluation metric, as seen before. Th
 
 **Alternative Hypothesis:** The model is unfair. In other words, there is a systematic difference in macro precision between the two groups (specifically, that recipes without meat have a higher precision than those with meat). <br>
 
-**Decision Rule:** We will reject the null hypothesis if our p-value is less than **significance level** 0.05
+**Decision Rule:** We will reject the null hypothesis if our p-value is less than **significance level** 0.01 <br>
 
 **Test Statistic:** We used **absolute difference in macro precision** between between the two groups as our test statistic.
 
